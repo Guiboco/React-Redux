@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from './page';
+import findSuggestions from '../../redux/actions/findSuggestions';
 
 class IAppBar extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             text: '',
         };
         this.onChangeText = this.onChangeText.bind(this);
         this.onChangeSelection = this.onChangeSelection.bind(this);
     }
 
-    onChangeText(text){
-        this.setState({text});
+    onChangeText(text) {
+        this.setState({ text });
+        this.props.findSuggestions(text)
     }
-    onChangeSelection(text){
-        
+    onChangeSelection(text) {
+
     }
 
     render() {
-        const {text} = this.state;
-        const {suggestions} = this.props
+        const { text } = this.state;
+        const { suggestions } = this.props
         return (
             <Page
-            text={text}
-            suggestions={suggestions}
-            onChangeText={this.onChangeText}
-            onChangeSelection={this.onChangeSelection}/>
+                text={text}
+                suggestions={suggestions}
+                onChangeText={this.onChangeText}
+                onChangeSelection={this.onChangeSelection} />
         );
     }
 }
@@ -35,9 +37,12 @@ class IAppBar extends Component {
 const mapStateToProps = state => {
     return {
         suggestions: state.suggestions,
-        hola: '123'
     }
-    };
-    
-    // wrapper(Results); //recibe un componente que lo va a modificiar
-    export default connect(mapStateToProps)(IAppBar);
+};
+
+const mapDispatchToProps = {
+    findSuggestions,
+}
+
+// wrapper(Results); //recibe un componente que lo va a modificiar
+export default connect(mapStateToProps, mapDispatchToProps)(IAppBar);
